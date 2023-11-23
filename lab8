@@ -1,0 +1,77 @@
+#include<iostream>
+#include<cmath>
+#include <Windows.h>
+class Pair 
+{
+protected:
+    double first;
+    double second;
+
+public:
+    Pair(double f, double s) : first(f), second(s) {}
+
+    void setPair(double f, double s) 
+    {
+        first = f;
+        second = s;
+    }
+
+    double getFirst() const 
+    {
+        return first;
+    }
+
+    double getSecond() const 
+    {
+        return second;
+    }
+
+    double calculateProduct() const 
+    {
+        return first * second;
+    }
+};
+
+class Rightangled : public Pair 
+{
+public:
+    Rightangled(double a, double b) : Pair(a, b) {}
+
+    double calculateHypotenuse() const 
+    {
+        return sqrt(first * first + second * second);
+    }
+
+    double calculateArea() const 
+    {
+        return 0.5 * first * second;
+    }
+};
+
+// Функція для демонстрації принципу підстановки
+Pair demoFunction(const Pair& pairObject) 
+{
+    // Тут можна використовувати об'єкти класу Pair або його похідного класу
+    // завдяки принципу підстановки (substitution principle)
+    std::cout << "Перший: " << pairObject.getFirst() << ", Другий: " << pairObject.getSecond() << std::endl;
+    std::cout << "продукт: " << pairObject.calculateProduct() << std::endl;
+
+    // Повертаємо об'єкт базового класу Pair
+    return pairObject;
+}
+
+int main() 
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    Pair pairObject(3, 4);
+    Rightangled rightangledObject(5, 6);
+
+    // Демонстрація принципу підстановки
+    Pair returnedPair = demoFunction(pairObject);
+    std::cout << std::endl;
+
+    Pair returnedRightangledPair = demoFunction(rightangledObject);
+
+    return 0;
+}
