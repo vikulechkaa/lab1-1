@@ -1,0 +1,72 @@
+#include <iostream>
+#include <cmath>
+#include <Windows.h>
+class GeometricFigure 
+{
+protected:
+    double centerX;
+    double centerY;
+    double rotationAngle;  // в градусах
+    double scale;
+
+public:
+    GeometricFigure(double x, double y, double angle, double scaleFactor)
+        : centerX(x), centerY(y), rotationAngle(angle), scale(scaleFactor) {}
+
+    virtual void show() const = 0;
+    virtual void hide() const = 0;
+    virtual void rotate(double angle) = 0;
+    virtual void move(double deltaX, double deltaY) = 0;
+
+    virtual ~GeometricFigure() = default;
+};
+
+class Triangle : public GeometricFigure 
+{
+private:
+    double sideLength;
+
+public:
+    Triangle(double x, double y, double angle, double scaleFactor, double side)
+        : GeometricFigure(x, y, angle, scaleFactor), sideLength(side) {}
+
+    void show() const override 
+    {
+        std::cout << "Креслення трикутника в (" << centerX << ", " << centerY << ") "
+            << "з довжиною сторони " << sideLength << std::endl;
+    }
+
+    void hide() const override 
+    {
+        std::cout << "Прихований трикутник..." << std::endl;
+    }
+
+    void rotate(double angle) override 
+    {
+        rotationAngle += angle;
+        std::cout << "Обертовий трикутник за " << angle << " ступенів." << std::endl;
+    }
+
+    void move(double deltaX, double deltaY) override 
+    {
+        centerX += deltaX;
+        centerY += deltaY;
+        std::cout << "Переміщення трикутника до (" << centerX << ", " << centerY << ")." << std::endl;
+    }
+};
+
+int main() 
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    // Приклад використання
+    Triangle triangle(0, 0, 30, 1.5, 5); // Задаємо координати, кут, масштаб і довжину сторони трикутника
+
+    // Використання методів базового класу
+    triangle.show();
+    triangle.rotate(45);
+    triangle.move(2, 3);
+    triangle.hide();
+
+    return 0;
+}
