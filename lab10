@@ -1,0 +1,99 @@
+#include <iostream>
+#include <cmath>
+#include <Windows.h>
+
+class Triangle 
+{
+public:
+    virtual double calculateArea() const = 0;
+    virtual ~Triangle() {}
+};
+
+class TriangleByVertices : public Triangle 
+{
+protected:
+    double x1, y1, x2, y2, x3, y3;
+
+public:
+    TriangleByVertices(double x1, double y1, double x2, double y2, double x3, double y3)
+        : x1(x1), y1(y1), x2(x2), y2(y2), x3(x3), y3(y3) {}
+
+    double calculateArea() const override 
+    {
+        return 0.5 * std::abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2));
+    }
+};
+
+class TriangleBySides : public Triangle 
+{
+protected:
+    double a, b, c;
+
+public:
+    TriangleBySides(double a, double b, double c) : a(a), b(b), c(c) {}
+
+    double calculateArea() const override 
+    {
+        double s = (a + b + c) / 2.0;
+        return std::sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+};
+
+class TriangleByMedians : public Triangle 
+{
+protected:
+    double m1, m2, m3;
+
+public:
+    TriangleByMedians(double m1, double m2, double m3) : m1(m1), m2(m2), m3(m3) {}
+
+    double calculateArea() const override 
+    {
+        double s = (m1 + m2 + m3) / 2.0;
+        return (4.0 / 3.0) * std::sqrt(s * (s - m1) * (s - m2) * (s - m3));
+    }
+};
+
+void calculateParallelMedian(double side) 
+{
+    double median = 0.5 * side;
+    std::cout << "Паралельна медіана за стороною " << side << ": " << median << std::endl;
+}
+
+class RightTriangle : public TriangleBySides 
+{
+public:
+    RightTriangle(double a, double b, double c) : TriangleBySides(a, b, c) {}
+
+    double calculateInscribedCircleRadius() const 
+    {
+        return calculateArea() / (0.5 * (a + b + c));
+    }
+
+    double calculateCircumscribedCircleRadius() const 
+    {
+        return (a * b * c) / (4.0 * calculateArea());
+    }
+};
+
+int main() 
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    TriangleByVertices triangleByVertices(0, 0, 0, 3, 4, 0);
+    std::cout << "Площа трикутника за вершинами: " << triangleByVertices.calculateArea() << std::endl;
+
+    TriangleBySides triangleBySides(3, 7, 5);
+    std::cout << "Площа трикутника за сторонами: " << triangleBySides.calculateArea() << std::endl;
+
+    TriangleByMedians triangleByMedians(3, 5, 4);
+    std::cout << "Площа трикутника за медіанами: " << triangleByMedians.calculateArea() << std::endl;
+
+    calculateParallelMedian(5);
+
+    RightTriangle rightTriangle(3, 4, 5);
+    std::cout << "Радіус вписаного кола: " << rightTriangle.calculateInscribedCircleRadius() << std::endl;
+    std::cout << "Радіус описаного кола: " << rightTriangle.calculateCircumscribedCircleRadius() << std::endl;
+
+    return 0;
+}
