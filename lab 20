@@ -1,0 +1,31 @@
+using System;
+
+class Program
+{
+    // Функція для перевірки, чи є рік високосним
+    static bool IsLeapYear(int year)
+    {
+        // Якщо рік не ділиться на 4 без залишку, то він не високосний
+        if (year % 4 != 0)
+            return false;
+
+        // Якщо рік ділиться на 100, але не ділиться на 400 без залишку, то він не високосний
+        if (year % 100 == 0 && year % 400 != 0)
+            return false;
+
+        // В інших випадках рік вважається високосним
+        return true;
+    }
+
+    static void Main(string[] args)
+    {
+        // Заданий рік
+        int year = 2024;
+
+        // Перевірка, чи є рік високосним
+        if (IsLeapYear(year))
+            Console.WriteLine($"{year} - високосний рiк.");
+        else
+            Console.WriteLine($"{year} - не високосний рiк.");
+    }
+}
