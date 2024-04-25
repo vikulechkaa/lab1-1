@@ -1,0 +1,25 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Задана послідовність символів
+        string sequence = "1карб2карб7карб3карб4карб";
+
+        // а) Витергти з неї всі цифри
+        string sequenceWithoutDigits = "";
+        foreach (char ch in sequence)
+        {
+            if (!char.IsDigit(ch))
+            {
+                sequenceWithoutDigits += ch;
+            }
+        }
+        Console.WriteLine("a) Послiдовнiсть без цифр: " + sequenceWithoutDigits);
+
+        // б) Замінити буквосполучення 'карб' на 'грн'
+        string modifiedSequence = sequence.Replace("карб", "грн");
+        Console.WriteLine("б) Послiдовнiсть пiсля замiни: " + modifiedSequence);
+    }
+}
